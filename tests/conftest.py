@@ -1,7 +1,7 @@
 import pytest
 from pathlib import Path
 import spacy
-from redactor_2_trf_new import Redactor
+from redactor import Redactor
 
 @pytest.fixture
 def redactor():

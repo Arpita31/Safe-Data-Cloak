@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+spacy = "3.8.0"
+pytest = "*"
+scikit-learn = "*"
+fuzzywuzzy = "*"
+usaddress = "*"
+sentence-transformers = "*"
+transformers = "*"
+torch = "*"
+pyap2 = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.12"
+python_full_version = "3.12.7"

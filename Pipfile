@@ -6,17 +6,17 @@ name = "pypi"
 [packages]
 spacy = "3.8.0"
 pytest = "*"
-en_core_web_trf = {file = "https://github.com/explosion/spacy-models/releases/download/en_core_web_trf-3.6.0/en_core_web_trf-3.6.0.tar.gz"}
 scikit-learn = "*"
-fuzzywuzzy = "*"
 usaddress = "*"
 sentence-transformers = "*"
 transformers = "*"
-torch = "*"
 pyap2 = "*"
+project1 = {file = ".", editable = true}
+
+[scripts]
+postinstall = "python -m spacy download en_core_web_trf"
 
 [dev-packages]
 
 [requires]
 python_version = "3.12"
-python_full_version = "3.12.7"

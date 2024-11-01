@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 spacy = "3.8.0"
 pytest = "*"
+en_core_web_trf = {file = "https://github.com/explosion/spacy-models/releases/download/en_core_web_trf-3.6.0/en_core_web_trf-3.6.0.tar.gz"}
 scikit-learn = "*"
 fuzzywuzzy = "*"
 usaddress = "*"

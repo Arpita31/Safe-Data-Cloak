@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "76e5644b6453a3efc2d4738f42a5b4093b489721476a37b7d296a915aa4a2d1a"
+            "sha256": "9d349763b6ca2aaa12fec9b5958d1b4e477c0e9b0eaf29cfac86d2ce06aaf09c"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -779,6 +779,7 @@
             "version": "==0.0.1"
         },
         "project1": {
+            "editable": true,
             "file": "."
         },
         "pyap2": {
@@ -1140,11 +1141,11 @@
         },
         "rich": {
             "hashes": [
-                "sha256:9836f5096eb2172c9e77df411c1b009bace4193d6a481d534fea75ebba758283",
-                "sha256:bc1e01b899537598cf02579d2b9f4a415104d3fc439313a7a2c165d76557a08e"
+                "sha256:439594978a49a09530cff7ebc4b5c7103ef57baf48d5ea3184f21d9a2befa098",
+                "sha256:6049d5e6ec054bf2779ab3358186963bac2ea89175919d699e378b99738c2a90"
             ],
             "markers": "python_full_version >= '3.8.0'",
-            "version": "==13.9.3"
+            "version": "==13.9.4"
         },
         "safetensors": {
             "hashes": [

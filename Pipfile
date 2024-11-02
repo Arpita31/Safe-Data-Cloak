@@ -12,6 +12,7 @@ usaddress = "*"
 sentence-transformers = "*"
 transformers = "*"
 pyap2 = "*"
+project1 = {file = ".", editable = true}
 
 [dev-packages]
 

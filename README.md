@@ -14,22 +14,37 @@ Find the detailed project description on(https://ufdatastudio.com/cis6930fa24/as
     $ pipenv install transformers
     $ pipenv run  pip install pyap
     $ pipenv install scikit-learn
-    $ pipenv install sentence-transformers transformers 
+    $ pipenv install sentence-transformers transformers
+    $ pipenv install -e . 
 ```
-or 
-<br />
-Can install from pipfile using : pipenv install -e .
-
-
 
 
 ## How to run
+To tun the code:
 ```
    $ pipenv run python redactor.py --input '*.txt' \
                     --names --dates --phones --address\
                     --concept 'wine' \
                     --output 'files/' \
                     --stats stderr
+```
+
+To run the tests:
+```
+    $ pipenv run python -m pytest
+```
+
+Sample output stats:
+```
+    "files_processed": 1,
+    "total_words_redacted": 0,
+    "names_redacted": 30,
+    "dates_redacted": 21,
+    "phones_redacted": 36,
+    "addresses_redacted": 11,
+    "concepts_redacted": {
+        "Wine": 4
+    }
 ```
                     
 ![video](video)
@@ -70,6 +85,14 @@ expected output = 24139656.1075858626713.JavaMail.evans@thyme
 actual output =  ██████████████████████.JavaMail.evans@thyme
 <br />Explanation - to support phone redaction we have used numbers regEx which redacts the above case.
 
+2. In phone redaction numbers except "+" sign are redacted. 
+
+3. In Phone redaction short phone numbers are also getting redacted like "123 456 789"
+
+4. Some addresses doesn't redact like  "123 Main Rd", "123 Main Blvd" and "123 Main Boulevard".
+
+5. In date dedaction we are not checking the validity of the date. For instance, 13/13/2020 is also redacted.
+
 
 ### Assumptions:
 
@@ -82,8 +105,7 @@ expected output = ████████████████████�
 
 3. In date redaction, we check for YYYY/MM/DD, DD-MM-YYYY, MM/DD/YY, 31st December 2024, 2024, December 31 or Dec 2024, etc.
 
-4. In phone redaction numbers except + sign are redacted. 
+4. In date dedaction we are not checking the validity of the date.
 
-5. In date dedaction we are not checking the validity of the date.
+5. Stats we are showing how many number of changes happened under each category like names, dates, phones, addresses and concepts.
 
-6. Stats we are showing how many number of changes happened under each category like names, dates, phones, addresses and concepts.

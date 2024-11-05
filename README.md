@@ -46,6 +46,7 @@ Sample output stats:
         "Wine": 4
     }
 ```
+The stats were printed on terminal or if --stats <filename> is specified, it stores the stats file on the main directory.
                     
 ![video](video)
 - Runs redactor.py within pipenv to redact data from all .txt files in the current directory.

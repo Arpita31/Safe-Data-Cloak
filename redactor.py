@@ -10,6 +10,7 @@ import pyap
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from sentence_transformers import SentenceTransformer
+import sys
 
 
 class RedactionStats:
@@ -342,20 +343,48 @@ class Redactor:
 
 def setup_argparse() -> argparse.ArgumentParser:
     """
-        Set up command line argument parsing.
-        Returns:
-            argparse.ArgumentParser: The argument parser with configured options.
+    Set up command line argument parsing with flexible argument combinations.
+    Returns:
+        argparse.ArgumentParser: The argument parser with configured options.
     """
     parser = argparse.ArgumentParser(description='Redact sensitive information from text files.')
+    
+    # Required argument
     parser.add_argument('--input', required=True, help='Input files glob pattern')
-    parser.add_argument('--names', action='store_true', help='Redact names')
-    parser.add_argument('--dates', action='store_true', help='Redact dates')
-    parser.add_argument('--phones', action='store_true', help='Redact phone numbers')
-    parser.add_argument('--address', action='store_true', help='Redact addresses')
-    parser.add_argument('--concept', action='append', help='Redact concepts')
-    parser.add_argument('--output', required=True, help='Output directory')
-    parser.add_argument('--stats', help='Statistics output file')
+    
+    # Optional redaction flags
+    redaction_group = parser.add_argument_group('redaction options')
+    redaction_group.add_argument('--names', action='store_true', help='Redact names')
+    redaction_group.add_argument('--dates', action='store_true', help='Redact dates')
+    redaction_group.add_argument('--phones', action='store_true', help='Redact phone numbers')
+    redaction_group.add_argument('--address', action='store_true', help='Redact addresses')
+    redaction_group.add_argument('--concept', action='append', help='Redact concepts (can be specified multiple times)')
+    
+    # Output options
+    output_group = parser.add_argument_group('output options')
+    output_group.add_argument('--output', default='files', 
+                              help='Output directory (default: files)')
+    output_group.add_argument('--stats', help='Statistics output file (optional, can be "stdout" or "stderr")')
+    
     return parser
+
+def validate_args(args: argparse.Namespace) -> bool:
+    """
+    Validate command line arguments.
+    
+    Args:
+        args: Parsed command line arguments
+        
+    Returns:
+        bool: True if arguments are valid, False otherwise
+    """
+    # Check if at least one redaction option is specified
+    redaction_options = [args.names, args.dates, args.phones, args.address]
+    if not any(redaction_options) and not args.concept:
+        logging.error("Error: At least one redaction option must be specified "
+                     "(--names, --dates, --phones, --address, or --concept)")
+        return False
+    return True
 
 
 def main():
@@ -365,33 +394,50 @@ def main():
     parser = setup_argparse()
     args = parser.parse_args()
 
+    # Validate arguments
+    if not validate_args(args):
+        sys.exit(1)
+
     output_dir = Path(args.output)
     output_dir.mkdir(parents=True, exist_ok=True)
 
     redactor = Redactor()
 
-    for input_path in glob.glob(args.input):
+    input_files = list(glob.glob(args.input))
+    if not input_files:
+        logging.error(f"No files found matching pattern: {args.input}")
+        sys.exit(1)
+    
+    for input_path in input_files:
         try:
             redacted_text = redactor.redact_document(input_path, args)
-
+            
+            # Create output file
             input_file = Path(input_path)
             output_path = output_dir / f"{input_file.stem}.censored"
-
+            
             with open(output_path, 'w', encoding='utf-8') as f:
                 f.write(redacted_text)
-
+            
         except Exception as e:
             logging.error(f"Error processing {input_path}: {str(e)}")
             continue
 
+    # Handle statistics output
     if args.stats:
         stats_dict = redactor.stats.to_dict()
-        if args.stats == 'stderr':
-            import sys
-            json.dump(stats_dict, sys.stderr, indent=2)
-        else:
-            with open(args.stats, 'w') as f:
-                json.dump(stats_dict, f, indent=2)
+        try:
+            if args.stats == 'stderr':
+                json.dump(stats_dict, sys.stderr, indent=2)
+                sys.stderr.write('\n')  # Add newline
+            elif args.stats == 'stdout':
+                json.dump(stats_dict, sys.stdout, indent=2)
+                sys.stdout.write('\n')  # Add newline
+            else:
+                with open(args.stats, 'w') as f:
+                    json.dump(stats_dict, f, indent=2)
+        except Exception as e:
+            logging.error(f"Error writing statistics: {str(e)}")
 
 
 if __name__ == "__main__":

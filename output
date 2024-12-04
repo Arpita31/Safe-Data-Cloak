@@ -1,0 +1,12 @@
+{
+  "files_processed": 2,
+  "total_words_redacted": 222,
+  "names_redacted": 60,
+  "dates_redacted": 40,
+  "phones_redacted": 70,
+  "addresses_redacted": 22,
+  "concepts_redacted": {
+    " media": 22,
+    "wine": 8
+  }
+}

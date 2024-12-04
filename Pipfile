@@ -13,6 +13,7 @@ sentence-transformers = "*"
 transformers = "*"
 pyap2 = "*"
 numpy = "1.26.4"
+scipy = "*"
 project1 = {file = ".", editable = true}
 
 [dev-packages]

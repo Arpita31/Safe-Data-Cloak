@@ -32,6 +32,7 @@ class RedactionStats:
             Returns:
                 dict: redaction statistics dictionary.
         """
+        self.total_words_redacted = self.names_count + self.dates_count + self.phones_count + self.addresses_count + sum(self.concepts.values())
         return {
             "files_processed": self.files_processed,
             "total_words_redacted": self.total_words_redacted,

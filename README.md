@@ -1,7 +1,7 @@
 # Text Redactor 
 
 Name: Arpita Patnaik
-cis6930fa24 -- Project 1 
+<br>cis6930fa24 -- Project 1 
 
 # Project Description 
 Find the detailed project description on(https://ufdatastudio.com/cis6930fa24/assignments/project1).

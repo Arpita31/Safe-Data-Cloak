@@ -1,4 +1,4 @@
-# Text Redactor 
+# Safe Data Cloak
 
 Name: Arpita Patnaik
 <br>cis6930fa24 -- Project 1 
